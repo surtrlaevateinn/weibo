@@ -22,6 +22,11 @@ public class TestController {
         return "login";
     }
 
+    @GetMapping("/register")
+    public String register(){
+        return "login";
+    }
+
     @PostMapping("/login")
     public String login(@RequestParam("id") String id,
                         @RequestParam("password") String password){
