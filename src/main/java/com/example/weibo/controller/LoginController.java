@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.Objects;
 
 @Controller
-public class TestController {
+public class LoginController {
     @Autowired
     private JdbcTemplate jdbcTemplate;
     @PostMapping("/register")
@@ -38,6 +38,7 @@ public class TestController {
             if(password.equals(map.get("password"))) {
                 httpSession.setAttribute("logged", true);
                 httpSession.setAttribute("id", id);
+                httpSession.setAttribute("name",(String)map.get("name"));
                 return "redirect:/home";
             }
             else

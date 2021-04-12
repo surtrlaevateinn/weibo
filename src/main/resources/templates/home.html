@@ -5,6 +5,28 @@
     <title>Title</title>
 </head>
 <body>
+    <div align="right">
+        <div class="dropdown">
+            <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" id="dropdownMenu1" th:text="${session.name}">
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                <li role="presentation">
+                    <a role="menuitem" tabindex="-1" href="#">1</a>
+                </li>
+                <li role="presentation">
+                    <a role="menuitem" tabindex="-1" href="#">2</a>
+                </li>
+                <li role="presentation">
+                    <a role="menuitem" tabindex="-1" href="#">3</a>
+                </li>
+                <li role="presentation" class="divider"></li>
+                <li role="presentation">
+                    <a role="menuitem" tabindex="-1" href="#">登出</a>
+                </li>
+            </ul>
+        </div>
+    </div>
     <h2>Home</h2>
     <a th:unless="${session.logged}" href="/login">登录</a>
     <a th:if="${session.logged}" href="/create">发布文章</a>
