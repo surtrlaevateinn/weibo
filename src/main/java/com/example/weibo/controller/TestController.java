@@ -5,11 +5,12 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-@RestController
+@Controller
 public class TestController {
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -19,22 +20,36 @@ public class TestController {
                            @RequestParam("password") String password){
         String sql = "insert into userinfo values (?,?,?);";
         jdbcTemplate.update(sql,Integer.parseInt(id),username,password);
-        return "login";
+        return "redirect:/login";
     }
 
     @GetMapping("/register")
     public String register(){
-        return "login";
+        return "register";
     }
 
     @PostMapping("/login")
     public String login(@RequestParam("id") String id,
-                        @RequestParam("password") String password){
+                        @RequestParam("password") String password,
+                        HttpSession httpSession){
         String sql = "select * from userinfo where id=?;";
-        Map<String, Object> map = jdbcTemplate.queryForMap(sql);
-        if(password.equals(map.get("password")))
-            return "home";
-        else
-            return "login";
+        try {
+            Map<String, Object> map = jdbcTemplate.queryForMap(sql,Integer.parseInt(id));
+            if(password.equals(map.get("password"))) {
+                httpSession.setAttribute("logged", true);
+                httpSession.setAttribute("id", id);
+                return "redirect:/home";
+            }
+            else
+                return "redirect:/login";
+        }
+        catch (Exception e){
+            return "redirect:/login";
+        }
+    }
+
+    @GetMapping("/login")
+    public String login(){
+        return "login";
     }
 }

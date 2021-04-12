@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- Bootstrap core CSS -->
+    <link th:href="@{/webjars/bootstrap/4.0.0/css/bootstrap.css}" rel="stylesheet">
+</head>
+<body>
+<h2>Comment</h2>
+<form th:if="${session.logged}" method="post">
+    <dl>
+        <dt>Text:</dt>
+        <dd><textarea name="text" rows="5" cols="40"></textarea></dd>
+        <dd><input type="submit" value="comment"/></dd>
+    </dl>
+</form>
+
+</body>
+</html>

@@ -1,8 +1,10 @@
 package com.example.weibo.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
+@AllArgsConstructor
 public class Article {
     private Integer id;
     private String title;
@@ -11,4 +13,5 @@ public class Article {
     private Integer comment;
     private Integer author;
     private String time;
+
 }

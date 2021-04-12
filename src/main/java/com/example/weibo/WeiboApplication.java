@@ -12,4 +12,5 @@ public class WeiboApplication {
         SpringApplication.run(WeiboApplication.class, args);
     }
 
+
 }

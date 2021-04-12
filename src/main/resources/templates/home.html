@@ -1,10 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
     <h2>Home</h2>
+    <a th:unless="${session.logged}" href="/login">登录</a>
+    <a th:if="${session.logged}" href="/create">发布文章</a>
+    <div th:if="${session.logged}">
+        <ul class="entries">
+            <li th:unless="${#lists.isEmpty(articles)}"
+                th:each="article : ${articles}">
+                <a th:href="@{'/article/' + ${article.get('id')}}" target="_blank"><h2 th:text="${article.get('title')}"></h2></a>
+            </li>
+            <li th:if="${#lists.isEmpty(articles)}"><em>无文章</em></li>
+        </ul>
+    </div>
 </body>
 </html>

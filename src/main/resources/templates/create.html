@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"></bean>
+</head>
+<body>
+
+<form th:if="${session.logged}" enctype="multipart/form-data" method="post">
+    <dl>
+        <dt>Title:</dt>
+        <dd><input type="text" size="30" name="title"/></dd>
+        <dt>Text:</dt>
+        <dd><textarea name="text" rows="5" cols="40"></textarea></dd>
+        <dd><input type="file" accept="image/png" name="img" multiple="multiple"/></dd>
+        <dd><input type="submit" value="Share"/></dd>
+    </dl>
+</form>
+
+</body>
+</html>

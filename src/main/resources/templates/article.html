@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- Bootstrap core CSS -->
+    <link th:href="@{/webjars/bootstrap/4.0.0/css/bootstrap.css}" rel="stylesheet">
+</head>
+<body>
+<div>
+    <ul class="entries">
+        <li>
+            <h2 th:text="${article.get('title')}"></h2>
+            <p>
+                <span id="like" th:text="'点赞数：' + ${article.get('likes')}"></span>
+                <span th:text="'评论数：' + ${article.get('comment')}"></span>
+                <span th:text="'作者：' + ${user.get('name')}"></span>
+                <span th:text="'发布时间：' + ${article.get('time')}"></span>
+            </p>
+            <br>
+            <p th:text="${article.get('content')}"></p>
+            <span th:each="img : ${images}">
+                <img th:src="@{'data:img/png;base64,'+${img.get('img')}}" height="400"/>
+            </span>
+        </li>
+        <p>
+            <span>
+                <a class="btn btn-primary btn-sm active" role="button" onclick="function_like()">点赞</a>
+            </span>
+            <span>
+                <a class="btn btn-primary btn-sm active" role="button" onclick="function_comment()">评论</a>
+            </span>
+        </p>
+        <hr>
+        <div>
+            <ul class="entries">
+                <li th:unless="${#lists.isEmpty(comments)}"
+                    th:each="comment : ${comments}">
+                    <h3 th:text="${comment.get('name')}"></h3>
+                    <span th:id="'comment_like' + ${comment.get('id')}" th:text="'点赞数：'+${comment.get('likes')}"></span>
+                    <span><a class="btn btn-primary btn-sm active" role="button" th:onclick='function_comment_like([[${comment.get("id")}]]);'>点赞</a></span>
+                    <h6 th:text="${comment.get('time')}"></h6>
+                    <p th:text="${comment.get('content')}"></p>
+                </li>
+            </ul>
+        </div>
+    </ul>
+</div>
+
+<script th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+<script type="text/javascript" th:inline="javascript">
+    function function_like() {
+        $.ajax({
+            url: '/article/like',
+            type: 'post',
+            dataType: 'text',
+            data: {
+                id: [[${article.get('id')}]]
+            },
+            cache: false,
+            async: true,
+            success: function (data) {
+                $("#like").empty();
+                $("#like").append(data);
+            }
+        });
+    }
+
+    function function_comment() {
+        window.location.href = "/article/comment?id="+[[${article.get('id')}]];
+    }
+
+    function function_comment_like(index) {
+        $.ajax({
+            url: '/article/comment/like',
+            type: 'post',
+            dataType: 'text',
+            data: {
+                id: index
+            },
+            cache: false,
+            async: true,
+            success: function (data) {
+                $("#comment_like"+index).empty();
+                $("#comment_like"+index).append(data);
+            }
+        });
+    }
+</script>
+</body>
+</html>
