@@ -4,9 +4,45 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <!-- Bootstrap core CSS -->
-    <link th:href="@{/webjars/bootstrap/4.0.0/css/bootstrap.css}" rel="stylesheet">
+    <link th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.css}" rel="stylesheet">
+    <script th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.js}"></script>
 </head>
 <body>
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/home">    Home</a>
+        </div>
+        <div>
+            <p class="navbar-text navbar-right">        </p>
+            <ul class="nav navbar-nav navbar-right">
+                <li th:if="${session.logged}" class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" th:text="'当前用户：'+${session.name}">
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li role="presentation">
+                            <a role="menuitem" tabindex="-1" href="/myArticle">我的文章</a>
+                        </li>
+                        <li role="presentation">
+                            <a role="menuitem" tabindex="-1" href="#">2</a>
+                        </li>
+                        <li role="presentation">
+                            <a role="menuitem" tabindex="-1" href="#">3</a>
+                        </li>
+                        <li role="presentation" class="divider"></li>
+                        <li role="presentation">
+                            <a role="menuitem" tabindex="-1" href="/logout">登出</a>
+                        </li>
+                    </ul>
+                </li>
+                <li th:unless="${session.logged}"><a href="/register"><span class="glyphicon glyphicon-user"></span>   注册  </a></li>
+                <li th:unless="${session.logged}">    </li>
+                <li th:unless="${session.logged}"><a href="/login"><span class="glyphicon glyphicon-log-in"></span>   登录  </a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
 <div>
     <ul class="entries">
         <li>

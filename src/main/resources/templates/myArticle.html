@@ -2,7 +2,7 @@
 <html lang="zh" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Home</title>
+    <title>MyArticle</title>
     <!-- Bootstrap core CSS -->
     <link th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.css}" rel="stylesheet">
     <script th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
@@ -12,7 +12,7 @@
     <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a class="navbar-brand" href="#">    HOME</a>
+                <a class="navbar-brand" href="/home">    Home</a>
             </div>
             <div>
                 <p class="navbar-text navbar-right">        </p>
@@ -43,16 +43,39 @@
             </div>
         </div>
     </nav>
-    <h2 style="text-align:center">Home</h2>
+    <h2 style="text-align:center">MyArticle</h2>
     <div th:if="${session.logged}">
-        <a th:if="${session.logged}" href="/create">发布文章</a>
         <ul class="entries">
-            <li th:unless="${#lists.isEmpty(articles)}"
-                th:each="article : ${articles}">
+            <li th:unless="${#lists.isEmpty(articles)}" th:each="article : ${articles}">
                 <a th:href="@{'/article/' + ${article.get('id')}}" target="_blank"><h2 th:text="${article.get('title')}"></h2></a>
+                <span>
+                    <a class="btn btn-primary btn-sm active" role="button" th:href="@{'/article/update/' + ${article.get('id')}}">修改</a>
+                </span>
+                <span>
+                    <a class="btn btn-primary btn-sm active" role="button" th:onclick="function_delete([[${article.get('id')}]],[[${article.get('title')}]]);">删除</a>
+                </span>
             </li>
             <li th:if="${#lists.isEmpty(articles)}"><em>无文章</em></li>
         </ul>
     </div>
+
+    <script type="text/javascript" th:inline="javascript">
+        function function_delete(id,title) {
+            $.ajax({
+                url: '/delete',
+                type: 'post',
+                dataType: 'text',
+                data: {
+                    id: id,
+                    title: title
+                },
+                cache: false,
+                async: true,
+                success: function () {
+                    location.reload();
+                }
+            });
+        }
+    </script>
 </body>
 </html>
