@@ -52,6 +52,9 @@
                 <span th:text="'评论数：' + ${article.get('comment')}"></span>
                 <span th:text="'作者：' + ${user.get('name')}"></span>
                 <span th:text="'发布时间：' + ${article.get('time')}"></span>
+                <span th:unless="${isSubscribed}">
+                    <a class="btn btn-primary btn-sm active" role="button" th:onclick='function_subscribe([[${article.get("author")}]]);'>关注</a>
+                </span>
             </p>
             <br>
             <p th:text="${article.get('content')}"></p>
@@ -98,6 +101,22 @@
             success: function (data) {
                 $("#like").empty();
                 $("#like").append(data);
+            }
+        });
+    }
+
+    function function_subscribe(id){
+        $.ajax({
+            url: '/subscribe',
+            type: 'post',
+            dataType: 'text',
+            data: {
+                id: id
+            },
+            cache: false,
+            async: true,
+            success: function () {
+                location.reload();
             }
         });
     }
